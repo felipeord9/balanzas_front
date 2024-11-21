@@ -1,0 +1,61 @@
+.toggle-container {
+  width: 40px;
+  height: 20px;
+  box-shadow: inset 4px 4px 6px #cecece;
+}
+
+.toggle {
+  left: 0;
+  width: 20px;
+  height: 20px;
+  transform: scale(.7);
+  transition: all ease-out .3s;
+}
+
+.select-um{
+  display: flex;
+  width: 15%;
+}
+
+.toggle.active {
+  left: 18px;
+}
+
+.img-gramera{
+  width: 110px;
+  height: 110px;
+  display: flex;
+}
+
+.text-img{
+  display: flex;
+  font-size: x-large;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.input-con-sufijo {
+  padding-right: 40px; /* Asegúrate de dejar espacio suficiente para el sufijo */
+}
+
+.sufijo {
+  position: absolute;
+  right: 10px; /* Ajusta según el espacio necesario */
+  pointer-events: none; /* Evita que el sufijo interfiera con la interacción con el input */
+}
+
+@media (max-width: 900px) {
+  .img-gramera{
+    width: 65px;
+    height: 65px;
+  }
+  .text-img{
+    font-size: medium;
+  }
+  .select-um{
+    width: 33%;
+  }
+}
