@@ -28,7 +28,7 @@ function App() {
               <Route path='/usuarios' element={<PrivateRoute component={Users} />} />
               <Route path='/cambiar/contrasena' element={<PrivateRoute component={ChangePassword} />} />
               <Route path='/enviar/recuperacion' element={<SendRecoveryPassword/>} />
-              <Route path='/recuperacion/contrasena//:token' element={<RecoveryPassword/>} />
+              <Route path='/recuperacion/contrasena/:token' element={<RecoveryPassword/>} />
               <Route path='*' element={<Page404 />} />
 
               {/* rutas privadas */}
