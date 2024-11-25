@@ -23,6 +23,16 @@ export const findOneBalance = async (id) => {
   return data
 }
 
+export const findOneByBalance = async (balance) => {
+  const token = JSON.parse(localStorage.getItem("token"))
+  const { data } = await axios.get(`${url}/gramera/${balance}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  return data
+}
+
 export const createBalance = async (body) => {
   const token = JSON.parse(localStorage.getItem("token"))
   const { data } = await axios.post(url, body, {

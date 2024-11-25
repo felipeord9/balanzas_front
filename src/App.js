@@ -8,10 +8,11 @@ import Page404 from "./pages/Page404"
 import Navbar from './components/Navbar';
 import PrivateRoute from "./components/PrivateRoute";
 import Records from './pages/Records';
-import { AuthContextProvider } from './context/authContext';
-import { ClientContextProvider } from "./context/clientContext";
 import Balance from './pages/Balances';
 import CheckList from './pages/CheckList';
+import SingleBalance from './pages/singleBalance';
+import { AuthContextProvider } from './context/authContext';
+import { ClientContextProvider } from "./context/clientContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -35,6 +36,8 @@ function App() {
               <Route path='/registros/diarios' element={<PrivateRoute component={Records} />} />
               <Route path='/grameras' element={<PrivateRoute component={Balance} />} />
               <Route path='/verificaciones' element={<PrivateRoute component={CheckList} />} />
+
+              <Route path='/verificar/gramera/:balance' element={<PrivateRoute component={SingleBalance} />} />
 
             </Routes>
           </div>

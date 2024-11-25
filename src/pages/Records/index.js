@@ -7,7 +7,8 @@ import AuthContext from "../../context/authContext";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { findRecord } from '../../services/recordService'
 import { findBalance } from '../../services/balanceService'
-import * as GoIcons from "react-icons/go"
+import { Modal, Button } from "react-bootstrap";
+import { Html5QrcodeScanner } from "html5-qrcode";
 import * as MdIcons from "react-icons/md"
 import Swal from 'sweetalert2';
 import './styles.css'
@@ -17,11 +18,17 @@ export default function Records() {
   const [records, setRecords] = useState([]);
   const [balances, setBalances] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
-  const [filterDate, setFilterDate] = useState({
-    initialDate: null,
-    finalDate: null,
-  });
   const [loading, setLoading] = useState(false);
+
+  //logica del modal con el scanner
+  const [showModal, setShowModal] = useState(false);
+  const scannerRef = useRef(null);
+  const openModal = () => {
+    setShowModal(true)
+  }
+  const handleCloseModal  = () => {
+    setShowModal(false)
+  }
 
   //logica de cambio de tabla
   const [showPendientes, setShowPendientes] = useState(true);
@@ -49,6 +56,54 @@ export default function Records() {
     /* getAllRecords();
     getAllBalances(); */
   }, []);
+
+  //logica para abrir el scanner cuando se abra el modal
+  useEffect(() => {
+    if (showModal) {
+      const config = {
+        fps: 10, // Frames per second
+        qrbox: { width: 250, height: 250 }, // Scanning area size
+        
+      };
+      // Personalizar los textos del escáner
+      const updateLabelsToSpanish = () => {
+        const startScanningButton = document.querySelector(".html5-qrcode-button-camera-start");
+        const stopScanningButton = document.querySelector(".html5-qrcode-button-camera-stop");
+        const cameraPermissionText = document.querySelector(".html5-qrcode-camera-permission-text");
+        const cameraUnavailableText = document.querySelector(".html5-qrcode-camera-setup-text");
+
+        if (startScanningButton) startScanningButton.innerText = "Iniciar escaneo";
+        if (stopScanningButton) stopScanningButton.innerText = "Detener escaneo";
+        if (cameraPermissionText) cameraPermissionText.innerText = "Por favor, permita el acceso a la cámara.";
+        if (cameraUnavailableText) cameraUnavailableText.innerText = "Cámara no disponible. Verifique su configuración.";
+      };
+
+      const scanner = new Html5QrcodeScanner("qr-reader", config, false);
+
+      scanner.render(
+        (decodedText) => {
+          handleCloseModal(); // Close the modal after scanning
+          scanner.clear(); // Clear the scanner
+          window.location.href = decodedText;
+        },
+        (error) => {
+          console.warn(error);
+        }
+      );
+      
+      // Modificar textos al español después de renderizar
+      setTimeout(updateLabelsToSpanish, 500); // Esperar a que se renderice la interfaz
+      
+      scannerRef.current = scanner;
+    }
+
+    // Cleanup on modal close or component unmount
+    return () => {
+      if (scannerRef.current) {
+        scannerRef.current.clear();
+      }
+    };
+  }, [showModal]);
 
   const getDuoSearch = () =>{
     setLoading(true)
@@ -101,32 +156,6 @@ export default function Records() {
     
   }
 
-  const getAllRecords = () => {
-    setLoading(true)
-    findRecord()
-    .then(({data})=>{
-      setLoading(false)
-      setRecords(data)
-    })
-    .catch((error)=>{
-      setLoading(false)
-      console.log(error)
-    })
-  };
-
-  const getAllBalances = () => {
-    findBalance()
-    .then(({data})=>{
-      setLoading(false)
-      setBalances(data)
-      setSuggestions(data)
-    })
-    .catch((error)=>{
-      setLoading(false)
-      console.log(error)
-    })
-  };
-
   const handleVerify = (e) =>{
     e.preventDefault();
     if(showPendientes === true){
@@ -143,9 +172,22 @@ export default function Records() {
   return (
     <div className="d-flex flex-column container mt-5">
       <div className="d-flex flex-column gap-2 h-100">
+        <Modal show={showModal} onHide={handleCloseModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Escanear Código QR</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div id="qr-reader" style={{ width: "100%", textAlign: "center" }}></div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={handleCloseModal}>
+              Cerrar
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <div className="d-flex div-botons justify-content-center align-items-center">
           <button
-            title="Nuevo usuario"
+            title="MARCACIONES PENDIENTES"
             style={{
               transform: showPendientes ? 'scale(1.1)' : 'scale(0.9)',
               transition: 'all 0.3s ease',
@@ -159,7 +201,7 @@ export default function Records() {
               <MdOutlinePendingActions />
           </button>
           <button
-            title="Nuevo usuario"
+            title="MARCACIONES VERIFICADAS"
             style={{
               transform: showVerificados ? 'scale(1.1)' : 'scale(0.9)',
               transition: 'all 0.3s ease',
@@ -173,8 +215,14 @@ export default function Records() {
               VERIFICADAS
               <MdIcons.MdOutlineInventory />
           </button>
+          {/* <button
+            title='SCANNEAR CÓDIGO'
+            className="d-flex align-items-center text-nowrap btn btn-sm btn-primary text-light gap-1 justify-content-center pe-3 ps-3"
+            onClick={(e)=>openModal(e)}
+          >
+            Scanner
+          </button> */}
         </div>
-        {/* {JSON.stringify(suggestions)} */}
         {showPendientes && (
           <TableBalance balances={suggestions} getAllBalances={getDuoSearch} loading={loading}/>
         )}
