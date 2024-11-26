@@ -77,8 +77,10 @@ export default function SingleBalance() {
         confirmButtonText:'OK',
         confirmButtonColor:'red'
       })
-      clearForm()
-      navigate('/registros/diarios')
+      .then(()=>{
+        clearForm()
+        navigate('/registros/diarios')
+      })
     })
   },[])
 
