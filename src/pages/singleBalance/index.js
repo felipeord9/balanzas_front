@@ -71,9 +71,14 @@ export default function SingleBalance() {
     .catch(()=>{
       setInfoBalance({})
       Swal.fire({
+        icon:'warning',
         title:'¡ATENCIÓN!',
-        text:'Ha ocurrido un error al momento de abrir el vínculo. Vuelve a intentarlo, si el problema persiste comunícate con el área de sistemas.'
+        text:'Ha ocurrido un error al momento de abrir el vínculo. Vuelve a intentarlo, si el problema persiste comunícate con el área de sistemas.',
+        confirmButtonText:'OK',
+        confirmButtonColor:'red'
       })
+      clearForm()
+      navigate('/registros/diarios')
     })
   },[])
 
