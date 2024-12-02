@@ -306,15 +306,14 @@ export default function Balance() {
                     type="text"
                     value={search.serial}
                     className="form-control form-control-sm"
-                    placeholder=""
-                    required
+                    placeholder="*Campo Opcional*"
                     autoComplete="off"
                     onChange={(e)=>handlerChangeSearch(e)}
                   />
                 </div>
               </div>
 
-              {/* Tercer serial */}
+              {/* Tercer fila */}
               <div className="row row-cols-sm-2">
                 <div className="d-flex flex-column align-items-start">
                   <label>Peso máximo:</label>
@@ -397,7 +396,7 @@ export default function Balance() {
                   </select>
                 </div>
                 <div className="d-flex flex-column align-items-start">
-                  <label>Serial:</label>
+                  <label>Sub zona:</label>
                   <select
                     id="subZona"
                     value={search.subZona}
