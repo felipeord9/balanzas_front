@@ -306,7 +306,7 @@ export default function Balance() {
                     type="text"
                     value={search.serial}
                     className="form-control form-control-sm"
-                    placeholder="*Campo Opcional*"
+                    placeholder="*Se recomienda llenar este campo*"
                     autoComplete="off"
                     onChange={(e)=>handlerChangeSearch(e)}
                   />
@@ -322,9 +322,8 @@ export default function Balance() {
                       id="maximumWeight"
                       type="number"
                       className="form-control form-control-sm input-con-sufijo"
-                      placeholder=""
+                      placeholder="*Se recomienda llenar este campo*"
                       value={search.maximumWeight}
-                      required
                       autoComplete="off"
                       onChange={(e)=>handlerChangeSearch(e)}
                     />
@@ -352,9 +351,8 @@ export default function Balance() {
                       id="minimumWeight"
                       type="number"
                       className="form-control form-control-sm input-con-sufijo"
-                      placeholder=""
+                      placeholder="*Se recomienda llenar este campo*"
                       value={search.minimumWeight}
-                      required
                       autoComplete="off"
                       onChange={(e)=>handlerChangeSearch(e)}
                     />
