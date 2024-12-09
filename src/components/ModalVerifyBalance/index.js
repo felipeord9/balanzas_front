@@ -16,6 +16,8 @@ export default function ModalVerifyBalance({
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState(null);
 
+  const [ observations, setObservations ] = useState('');
+
   const openModal = (number) => {
     setSelectedNumber(number);
     setModalIsOpen(true);
@@ -82,7 +84,8 @@ export default function ModalVerifyBalance({
           date: new Date(),
           hour: `${new Date().getHours()}:${new Date().getMinutes()}`,
           balanceId: balance.id,
-          userId: user.id 
+          userId: user.id,
+          observations: observations,
         }
         createRecord(body)
         .then((data) => {
@@ -186,6 +189,7 @@ export default function ModalVerifyBalance({
             5
           </div>
         </div>
+        
 
         {/* Logica del modal hijo */}
         <Modal show={modalIsOpen} onHide={closeModal} centered style={{backgroundColor:'rgba(0, 0, 0, 0.6)'}} size="sm">
@@ -222,6 +226,17 @@ export default function ModalVerifyBalance({
           </Modal.Footer>
         </Modal>
       </div>
+      {/* observaciones */}
+      <div className="d-flex flex-column mb-1 mt-2">
+          <label className="d-flex w-100 justify-content-center align-items-center fw-bold">OBSERVACIONES</label>
+          <textarea
+            id="observations"
+            className="form-control"
+            value={observations}
+            onChange={(e) => setObservations(e.target.value)}
+            style={{ minHeight: 70, maxHeight: 100, fontSize: 12 }}
+          ></textarea>
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <div className="d-flex justify-content-center gap-2 mt-2 w-100">

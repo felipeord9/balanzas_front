@@ -14,6 +14,8 @@ export default function SingleBalance() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState(null);
 
+  const [ observations, setObservations ] = useState('');
+
   const openModal = (number) => {
     setSelectedNumber(number);
     setModalIsOpen(true);
@@ -120,7 +122,8 @@ export default function SingleBalance() {
           date: new Date(),
           hour: `${new Date().getHours()}:${new Date().getMinutes()}`,
           balanceId: infoBalance.id,
-          userId: user.id 
+          userId: user.id ,
+          observations: observations,
         }
         createRecord(body)
         .then((data) => {
@@ -349,6 +352,19 @@ export default function SingleBalance() {
                   </Modal.Footer>
                 </Modal>
               </div>
+
+              {/* observaciones */}
+              <div className="d-flex flex-column mb-2">
+                <label className="fw-bold">OBSERVACIONES</label>
+                <textarea
+                  id="observations"
+                  className="form-control"
+                  value={observations}
+                  onChange={(e) => setObservations(e.target.value)}
+                  style={{ minHeight: 70, maxHeight: 100, fontSize: 12 }}
+                ></textarea>
+              </div>
+              
             </div>
           </div>
         </div>
