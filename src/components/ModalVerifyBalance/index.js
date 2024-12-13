@@ -77,10 +77,10 @@ export default function ModalVerifyBalance({
       ){
         const body={
           firstWeight: `${weights[1]} ${um[1]}`,
-          secondWeight:`${weights[2]} ${um[2]}`,
-          thirdWeight:`${weights[3]} ${um[3]}`,
-          fourthWeight:`${weights[4]} ${um[4]}`,
-          fifthWeight:`${weights[5]} ${um[5]}`,
+          secondWeight: `${weights[2]} ${um[2]}`,
+          thirdWeight: `${weights[3]} ${um[3]}`,
+          fourthWeight: `${weights[4]} ${um[4]}`,
+          fifthWeight: `${weights[5]} ${um[5]}`,
           date: new Date(),
           hour: `${new Date().getHours()}:${new Date().getMinutes()}`,
           balanceId: balance.id,
@@ -90,7 +90,6 @@ export default function ModalVerifyBalance({
         createRecord(body)
         .then((data) => {
           setShowModal(!showModal)
-          reloadInfo();
           Swal.fire({
             title: '¡Correcto!',
             text: `El registro de la gramera se ha generado correctamente`,
@@ -99,6 +98,38 @@ export default function ModalVerifyBalance({
           })
           cleanForm()
           reloadInfo()
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon:'warning',
+            title: '¡ERROR!',
+            text: 'Ha ocurrido un error al momento de registrar la verificación. Vuelve a intentarlo, si el problema persiste comunicate con el área de sistemas.',
+            showConfirmButton: false,
+            timer: 5000
+          })
+        });
+      }else if(observations !== ''){
+        const body={
+          firstWeight: weights[1] !== '' ? `${weights[1]} ${um[1]}` : 0,
+          secondWeight: weights[2] !== '' ? `${weights[2]} ${um[2]}` : 0,
+          thirdWeight: weights[3] !== '' ? `${weights[3]} ${um[3]}` : 0,
+          fourthWeight: weights[4] !== '' ? `${weights[4]} ${um[4]}` : 0,
+          fifthWeight: weights[5] !== '' ? `${weights[5]} ${um[5]}` : 0,
+          date: new Date(),
+          hour: `${new Date().getHours()}:${new Date().getMinutes()}`,
+          balanceId: balance.id,
+          userId: user.id,
+          observations: observations,
+        }
+        createRecord(body)
+        .then((data) => {
+          Swal.fire({
+            title: '¡Correcto!',
+            text: `El registro de la gramera se ha generado correctamente`,
+            showConfirmButton: false,
+            timer: 4000
+          })
+          cleanForm()
         })
         .catch((error) => {
           Swal.fire({
