@@ -166,6 +166,7 @@ export default function ModalVerifyBalance({
       4:'',
       5:'',
     })
+    setObservations('');
     setBalance(null)
     setShowModal(false)
   }
